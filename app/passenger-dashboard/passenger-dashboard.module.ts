@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule} from '@angular/common'; //for ngIf, ngFor, etc
 import { HttpModule } from '@angular/http';
 import {FormsModule} from '@angular/forms';
+import {RouterModule, Routes} from '@angular/router';
 
 import {PassengerDashboardComponent} from './containers/passenger-dashboard/passenger-dashboard.component';
 import {PassengerViewerComponent} from './containers/passenger-viewer/passenger-viewer.component';
@@ -12,6 +13,16 @@ import {PassengerFormComponent} from './components/passenger-form/passenger-form
 
 import {PassengerDashboardService} from './passenger-dashboard.service';
 
+
+const routes: Routes = [
+  {
+    path: 'passengers',
+    children: [
+      {path: '', component: PassengerDashboardComponent},
+      {path: ':id', component: PassengerViewerComponent},
+    ]
+  }
+]
 @NgModule({
   declarations: [ //will hold all of the components relative to this module
     //when we start building components will be added in this section 
@@ -24,12 +35,13 @@ import {PassengerDashboardService} from './passenger-dashboard.service';
   imports: [
     CommonModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    RouterModule.forChild(routes)
   ],
-  exports: [
-     //what we usr in the parent, the app.component
-    PassengerViewerComponent
-  ],
+  // exports: [
+  //    //what we usr in the parent, the app.component
+  //   PassengerViewerComponent
+  // ],
   providers: [
     PassengerDashboardService
   ]
